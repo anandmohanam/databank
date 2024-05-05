@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    <style>
+        body {
+            background-color: black;
+            color: white;
+        }
+        .container1 {
+            position: relative;
+            text-align: right;
+            margin-top: 20px; /* Adjust as needed */
+        }
+        .container2 {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-top: 20px; /* Adjust as needed */
+        }
+        .btn-container {
+            margin-right: 10px; /* Adjust spacing between buttons */
+        }
+        .logout-btn {
+            margin-left: 15px; /* Adjust as needed */
+        }
+        a {
+            text-decoration: none;
+            color: inherit; /* Ensuring button text color inherits */
+        }
+     
+        .highlight {
+            background-color: rgb(237, 199, 72); /* Light yellow background for highlighting */
+        }
+    </style>
+</head>
+<body>
+    <div class="container2">
+        <div class="btn-container">
+            <button class="btn btn-primary"><a href="{% url 'create' %}">Create</a></button>
+        </div>
+        <div class="btn-container">
+            <button class="btn btn-primary"><a href="{% url 'modify' %}">Modify</a></button>
+        </div>
+        <div class="btn-container">
+            <button class="btn btn-primary"><a href="{% url 'show' %}">Show</a></button>
+        </div>
+        <!-- Logout button with adjusted position -->
+        <button class="btn btn-primary logout-btn"><a href="{% url 'logout' %}">Logout</a></button>
+     
+    </div>
+
+    
+    
+</body>
+</html>

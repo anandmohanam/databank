@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Data</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif; /* Added font family for better readability */
+        }
+        table {
+            border-collapse: collapse; /* Removed table border spacing */
+            width: 80%; /* Adjust table width as needed */
+            margin: 20px auto; /* Center-align the table */
+        }
+        th, td {
+            padding: 10px; /* Added padding for cells */
+            text-align: center; /* Center-align table data */
+        }
+        th {
+            background-color: #333; /* Header background color */
+        }
+        th, td {
+            border: 1px solid white; /* Added border for cells */
+        }
+        tr:hover {
+            background-color: #555; /* Highlight row on hover */
+        }
+    </style>
+</head>
+<body>
+    {% include 'base.html' %} <!-- Assuming base.html contains your base layout -->
+    <h1>List of all Data</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Number</th>
+                <th>Job</th>
+                <th>Education</th>
+                <th>Email</th>
+                <th>Place</th>
+                <th>Date of Birth</th>
+                <th>Facebook</th>
+                <th>Instagram</th>
+                <th>Vehicle Number</th>
+                <th>Photo</th>
+                <th>Action</th> <!-- Added table header for action column -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for new_data in data %}
+                <tr>
+                    <td>{{ new_data.name|default:"No data available" }}</td>
+                    <td>{{ new_data.age|default:"No data available" }}</td>
+                    <td>{{ new_data.number|default:"No data available" }}</td>
+                    <td>{{ new_data.job|default:"No data available" }}</td>
+                    <td>{{ new_data.education|default:"No data available" }}</td>
+                    <td>{{ new_data.email|default:"No data available" }}</td>
+                    <td>{{ new_data.place|default:"No data available" }}</td>
+                    <td>{{ new_data.dob|default:"No data available" }}</td>
+                    <td>{{ new_data.facebook|default:"No data available" }}</td>
+                    <td>{{ new_data.instagram|default:"No data available" }}</td>
+                    <td>{{ new_data.car_or_two_wheel_number|default:"No data available" }}</td>
+                    <td>
+                        {% if new_data.img and new_data.img.url %}
+                            <img src="{{ new_data.img.url }}" alt="No image" height="50px" width="50px">
+                        {% else %}
+                            No image available
+                        {% endif %}
+                    </td>
+                    <td><a href="{% url 'dele' new_data.id %}">Delete</a></td> <!-- Added delete link -->
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Data</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif; /* Added font family for better readability */
+        }
+        table {
+            border-collapse: collapse; /* Removed table border spacing */
+            width: 80%; /* Adjust table width as needed */
+            margin: 20px auto; /* Center-align the table */
+        }
+        th, td {
+            padding: 10px; /* Added padding for cells */
+            text-align: center; /* Center-align table data */
+        }
+        th {
+            background-color: #333; /* Header background color */
+        }
+        th, td {
+            border: 0px solid white; /* Added border for cells */
+        }
+        tr:hover {
+            background-color: #555; /* Highlight row on hover */
+            cursor: pointer; /* Change cursor to pointer on hover */
+        }
+        .popup {
+            display: none; /* Hide popup by default */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #e3d3d3;
+            padding: 50px;
+            border-radius: 10px;
+            z-index: 9999;
+            width: 80%; /* Set width to cover 80% of the page */
+            height: 80%; /* Set height to cover 80% of the page */
+            overflow: auto; /* Add overflow for scrolling if content exceeds */
+        }
+        .popup img {
+            max-width: 100%; /* Adjust image size to fit the popup width */
+            max-height: 85%; /* Adjust image size to fit the popup height */
+            display: block; /* Center image */
+            margin: 0 auto;
+            margin-top: 10px;
+        }
+        h1{
+             text-align: center;
+        }
+    </style>
+</head>
+<body>
+    {% include 'base.html' %} 
+    <h1>DATA BASE</h1>
+    <input type="text" id="searchInput" placeholder="Search...">
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Number</th>
+                <th>Job</th>
+                <th>Education</th>
+                <th>Email</th>
+                <th>Place</th>
+                <th>Date of Birth</th>
+                <th>Facebook</th>
+                <th>Instagram</th>
+                <th>Vehicle Number</th>
+                <th>Photo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for new_data in data %}
+                <tr class="data-row">
+                    <td>{{ new_data.name|default:"No data available" }}</td>
+                    <td>{{ new_data.age|default:"No data available" }}</td>
+                    <td>{{ new_data.number|default:"No data available" }}</td>
+                    <td>{{ new_data.job|default:"No data available" }}</td>
+                    <td>{{ new_data.education|default:"No data available" }}</td>
+                    <td>{{ new_data.email|default:"No data available" }}</td>
+                    <td>{{ new_data.place|default:"No data available" }}</td>
+                    <td>{{ new_data.dob|default:"No data available" }}</td>
+                    <td>{{ new_data.facebook|default:"No data available" }}</td>
+                    <td>{{ new_data.instagram|default:"No data available" }}</td>
+                    <td>{{ new_data.car_or_two_wheel_number|default:"No data available" }}</td>
+                    <td>
+                        {% if new_data.img and new_data.img.url %}
+                            <img src="{{ new_data.img.url }}" alt="No image" height="50px" width="50px">
+                        {% else %}
+                            No image available
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Popup -->
+    <div id="popup" class="popup">
+        <div id="popup-content"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const rows = document.querySelectorAll('.data-row');
+            const searchInput = document.getElementById('searchInput');
+
+            searchInput.addEventListener('keyup', function() {
+                const searchText = this.value.toLowerCase();
+
+                rows.forEach(row => {
+                    const name = row.querySelector('td:nth-child(1)').innerText.toLowerCase();
+                    const number = row.querySelector('td:nth-child(3)').innerText.toLowerCase();
+                    const email = row.querySelector('td:nth-child(6)').innerText.toLowerCase();
+                    const job = row.querySelector('td:nth-child(4)').innerText.toLowerCase();
+                    const vehicleNumber = row.querySelector('td:nth-child(11)').innerText.toLowerCase();
+
+                    if (name.includes(searchText) || number.includes(searchText) || email.includes(searchText) || job.includes(searchText) || vehicleNumber.includes(searchText)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+
+            rows.forEach(row => {
+                row.addEventListener('click', function() {
+                    const name = this.querySelector('td:first-child').innerText;
+                    const age = this.querySelector('td:nth-child(2)').innerText;
+                    const number = this.querySelector('td:nth-child(3)').innerText;
+                    const photo = this.querySelector('td:nth-child(12) img').cloneNode(true);
+
+                    const popupContent = document.getElementById('popup-content');
+                    popupContent.innerHTML = `
+                        <h2>Name: ${name}</h2>
+                        <p>Age: ${age}</p>
+                        <p>Number: ${number}</p>
+                    `;
+                    popupContent.appendChild(photo);
+
+                    document.getElementById('popup').style.display = 'block';
+                });
+            });
+
+            document.getElementById('popup').addEventListener('click', function() {
+                this.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>
